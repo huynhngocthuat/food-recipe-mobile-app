@@ -1,4 +1,4 @@
-package com.example.foodrecipemobileapp.data.local;
+package com.example.foodrecipemobileapp.Datas.Locals;
 
 import androidx.room.RoomDatabase;
 
