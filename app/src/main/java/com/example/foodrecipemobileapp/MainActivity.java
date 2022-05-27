@@ -1,6 +1,7 @@
 package com.example.foodrecipemobileapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Spinner spinner;
     List<String> tags = new ArrayList<>();
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,23 @@ public class MainActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading......");
+
+        searchView = findViewById(R.id.searchView_home);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                tags.clear();
+                tags.add(s);
+                manager.getRandomRecipes(randomRecipeResponseListener, tags);
+                dialog.show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
 
         spinner = findViewById(R.id.spinner_tags);
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(
