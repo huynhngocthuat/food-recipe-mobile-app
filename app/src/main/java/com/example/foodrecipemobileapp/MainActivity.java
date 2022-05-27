@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
             dialog.dismiss();
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 1);
+            recyclerView.setLayoutManager(gridLayoutManager);
             randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.recipes);
             recyclerView.setAdapter(randomRecipeAdapter);
         }

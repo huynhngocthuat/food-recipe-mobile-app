@@ -30,7 +30,7 @@ public class RequestManager {
         call.enqueue(new Callback<RandomRecipeApiResponse>() {
             @Override
             public void onResponse(Call<RandomRecipeApiResponse> call, Response<RandomRecipeApiResponse> response) {
-                if(response.isSuccessful()){
+                if(!response.isSuccessful()){
                     listener.didError(response.message());
                     return;
                 }
