@@ -2,11 +2,12 @@ package com.example.foodrecipemobileapp;
 
 import android.content.Context;
 
+import com.example.foodrecipemobileapp.Listeners.InstructionsListener;
 import com.example.foodrecipemobileapp.Listeners.RandomRecipeResponseListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeDetailsListener;
 import com.example.foodrecipemobileapp.Listeners.SimilarRecipesListener;
+import com.example.foodrecipemobileapp.Models.InstructionsResponse;
 import com.example.foodrecipemobileapp.Models.RandomRecipeApiResponse;
-import com.example.foodrecipemobileapp.Models.Recipe;
 import com.example.foodrecipemobileapp.Models.RecipeDetailsResponse;
 import com.example.foodrecipemobileapp.Models.SimilarRecipeResponse;
 
@@ -18,12 +19,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class RequestManager {
     Context context;
+    // set up retrofit
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.spoonacular.com/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -94,6 +95,27 @@ public class RequestManager {
         });
     }
 
+    public void getInstructions(InstructionsListener listener, int id){
+        CallInstructions callInstructions = retrofit.create(CallInstructions.class);
+        Call<List<InstructionsResponse>> call = callInstructions.callInstructions(id, context.getString(R.string.api_key));
+        call.enqueue(new Callback<List<InstructionsResponse>>() {
+            @Override
+            public void onResponse(Call<List<InstructionsResponse>> call, Response<List<InstructionsResponse>> response) {
+                if(!response.isSuccessful()){
+                    listener.didError(response.message());
+                    return;
+                }
+                listener.didFetch(response.body(), response.message());
+            }
+
+            @Override
+            public void onFailure(Call<List<InstructionsResponse>> call, Throwable t) {
+                listener.didError(t.getMessage());
+            }
+        });
+    }
+
+    // Function get ramdom recipe from api
     private interface CallRandomRecipes{
         @GET("recipes/random")
         Call<RandomRecipeApiResponse> callRandomRecipe(
@@ -103,6 +125,7 @@ public class RequestManager {
         );
     }
 
+    // Function get recipe details by id
     private interface CallRecipeDetails{
         @GET("recipes/{id}/information")
         Call<RecipeDetailsResponse> callRecipeDetails(
@@ -112,11 +135,21 @@ public class RequestManager {
         );
     }
 
+    // Function get similar recipe by id
     private interface CallSimilarRecipes{
         @GET("recipes/{id}/similar")
         Call<List<SimilarRecipeResponse>> callSimilarRecipe(
                 @Path("id") int id,
                 @Query("number") String number,
+                @Query("apiKey") String apiKey
+        );
+    }
+
+    // Function get instructions of recipe by id
+    private interface CallInstructions{
+        @GET("recipes/{id}/analyzedInstructions")
+        Call<List<InstructionsResponse>> callInstructions(
+                @Path("id") int id,
                 @Query("apiKey") String apiKey
         );
     }

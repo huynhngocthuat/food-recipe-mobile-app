@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading......");
 
+        // Add search function
         searchView = findViewById(R.id.searchView_home);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         spinner = findViewById(R.id.spinner_tags);
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(
                 this,
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 //        dialog.show();
     }
 
+    //Get data from api
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @Override
         public void didFetch(RandomRecipeApiResponse response, String message) {
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // Event select item in spinner(tags in api)
     private final AdapterView.OnItemSelectedListener spinnerSelectedListener = new AdapterView.OnItemSelectedListener() {
 
         @Override
@@ -106,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // Event click item in recyclerview
     private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
         @Override
         public void onRecipeClicked(String id) {

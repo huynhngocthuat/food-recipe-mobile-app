@@ -12,10 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodrecipemobileapp.Adapters.IngredientsAdapter;
+import com.example.foodrecipemobileapp.Adapters.InstructionsAdapter;
 import com.example.foodrecipemobileapp.Adapters.SimilarRecipeAdapter;
+import com.example.foodrecipemobileapp.Listeners.InstructionsListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeClickListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeDetailsListener;
 import com.example.foodrecipemobileapp.Listeners.SimilarRecipesListener;
+import com.example.foodrecipemobileapp.Models.InstructionsResponse;
 import com.example.foodrecipemobileapp.Models.RecipeDetailsResponse;
 import com.example.foodrecipemobileapp.Models.SimilarRecipeResponse;
 import com.squareup.picasso.Picasso;
@@ -27,11 +30,12 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     int id;
     TextView textViewMealName, textViewMealSource, textViewMealSummary;
     ImageView imageViewMealImage;
-    RecyclerView recyclerMealingredients, recyclerMealSimilar;
+    RecyclerView recyclerMealingredients, recyclerMealSimilar, recyclerMealInstructions;
     RequestManager manager;
     ProgressDialog dialog;
     IngredientsAdapter ingredientsAdapter;
     SimilarRecipeAdapter similarRecipeAdapter;
+    InstructionsAdapter instructionsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         manager = new RequestManager(this);
         manager.getRecipeDetails(recipeDetailsListener, id);
         manager.getSimilarRecipes(similarRecipesListener, id);
+        manager.getInstructions(instructionsListener, id);
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading Details....");
         dialog.show();
@@ -56,8 +61,10 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         imageViewMealImage = findViewById(R.id.imageView_meal_image);
         recyclerMealingredients = findViewById(R.id.recycler_meal_ingredients);
         recyclerMealSimilar = findViewById(R.id.recycler_meal_similar);
+        recyclerMealInstructions = findViewById(R.id.recycler_meal_instructions);
     }
 
+    // set data on view
     private final RecipeDetailsListener recipeDetailsListener = new RecipeDetailsListener() {
         @Override
         public void didFetch(RecipeDetailsResponse response, String message) {
@@ -79,6 +86,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
     };
 
+    // Display similar recipes
     private final SimilarRecipesListener  similarRecipesListener = new SimilarRecipesListener() {
         @Override
         public void didFetch(List<SimilarRecipeResponse> responses, String message) {
@@ -94,6 +102,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
     };
 
+    // Set event click similar recipes
     private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
         @Override
         public void onRecipeClicked(String id) {
@@ -103,6 +112,22 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             startActivity(new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class)
             .putExtra("id", Integer.toString(idRecipe)));
 
+        }
+    };
+
+    // Display instructions step by step
+    private final InstructionsListener instructionsListener = new InstructionsListener() {
+        @Override
+        public void didFetch(List<InstructionsResponse> response, String message) {
+            recyclerMealInstructions.setHasFixedSize(true);
+            recyclerMealInstructions.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.VERTICAL, false));
+            instructionsAdapter = new InstructionsAdapter(RecipeDetailsActivity.this, response);
+            recyclerMealInstructions.setAdapter(instructionsAdapter);
+        }
+
+        @Override
+        public void didError(String message) {
+            Toast.makeText(RecipeDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
         }
     };
 }
