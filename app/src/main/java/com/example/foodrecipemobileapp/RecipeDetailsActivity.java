@@ -71,7 +71,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             dialog.dismiss();
             textViewMealName.setText(response.title);
             textViewMealSource.setText(response.sourceName);
-            textViewMealSummary.setText(response.summary);
+            textViewMealSummary.setText(android.text.Html.fromHtml(response.summary));
             Picasso.get().load(response.image).into(imageViewMealImage);
 
             recyclerMealingredients.setHasFixedSize(true);

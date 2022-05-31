@@ -38,23 +38,24 @@ public class InstructionsEquipmentsAdapter extends RecyclerView.Adapter<Instruct
         holder.textViewInstructionStepItem.setText(list.get(position).name);
         holder.textViewInstructionStepItem.setSelected(true);
         Picasso.get().load("https://spoonacular.com/cdn/equipment_100x100/"+list.get(position).image).into(holder.imageViewInstructionStepItem);
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return list.size();
     }
+
 }
 
 class InstructionEquipmentsViewHolder extends RecyclerView.ViewHolder{
-
     TextView textViewInstructionStepItem;
     ImageView imageViewInstructionStepItem;
 
     public InstructionEquipmentsViewHolder(@NonNull View itemView) {
         super(itemView);
-
         textViewInstructionStepItem = itemView.findViewById(R.id.textView_instructions_step_item);
         imageViewInstructionStepItem = itemView.findViewById(R.id.imageView_instructions_step_items);
     }
+
 }
