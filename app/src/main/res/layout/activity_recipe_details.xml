@@ -53,8 +53,14 @@
                 android:textSize="14sp"
                 android:text="Summary"
                 android:textColor="@color/white"
+                android:maxLines="5"
                 android:textStyle="normal"
                 android:padding="8dp"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_meal_instructions"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

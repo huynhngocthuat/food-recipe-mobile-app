@@ -6,8 +6,13 @@
         <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.1" />
         <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/activity_recipe_details.xml" value="0.25416666666666665" />
+        <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/list_instructions.xml" value="0.25416666666666665" />
+        <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/list_instructions_step_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/list_instructions_step_items.xml" value="0.264" />
+        <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/list_instructions_steps.xml" value="0.264" />
         <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/list_random_recipe.xml" value="0.25416666666666665" />
         <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/list_similar_recipe.xml" value="0.25416666666666665" />
+        <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/listr_instructions_steps.xml" value="0.12708333333333333" />
         <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/spinner_inner_text.xml" value="0.25416666666666665" />
         <entry key="..\:/CODE ANDROID STUDIO/FoodRecipeMobileApp/app/src/main/res/layout/spinner_text.xml" value="0.25416666666666665" />
       </map>
