@@ -1,7 +1,11 @@
-package com.example.foodrecipemobileapp;
+package com.example.foodrecipemobileapp.Datas.Remotes;
 
 import android.content.Context;
 
+import com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls.CallInstructions;
+import com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls.CallRandomRecipes;
+import com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls.CallRecipeDetails;
+import com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls.CallSimilarRecipes;
 import com.example.foodrecipemobileapp.Listeners.InstructionsListener;
 import com.example.foodrecipemobileapp.Listeners.RandomRecipeResponseListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeDetailsListener;
@@ -10,6 +14,7 @@ import com.example.foodrecipemobileapp.Models.ResponseModels.InstructionsRespons
 import com.example.foodrecipemobileapp.Models.ResponseModels.RandomRecipeApiResponse;
 import com.example.foodrecipemobileapp.Models.ResponseModels.RecipeDetailsResponse;
 import com.example.foodrecipemobileapp.Models.ResponseModels.SimilarRecipeResponse;
+import com.example.foodrecipemobileapp.R;
 
 import java.util.List;
 
@@ -18,25 +23,29 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public class RequestManager {
-    Context context;
+    private Context context;
+    private String API_KEY;
+    private static final String BASE_URL = "https://api.spoonacular.com/";
+
     // set up retrofit
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.spoonacular.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
+    private Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(BASE_URL)
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
 
     public RequestManager(Context context){
         this.context = context;
+        this.API_KEY = context.getString(R.string.api_key);
     }
 
+    // Call and get random recipes
     public void getRandomRecipes(RandomRecipeResponseListener listener, List<String> tags){
+        // Create api call for random recipes
         CallRandomRecipes callRandomRecipes = retrofit.create(CallRandomRecipes.class);
-        Call<RandomRecipeApiResponse> call = callRandomRecipes.callRandomRecipe(context.getString(R.string.api_key),tags, "10");
+        Call<RandomRecipeApiResponse> call = callRandomRecipes.callRandomRecipe(API_KEY, tags, "10");
+
         call.enqueue(new Callback<RandomRecipeApiResponse>() {
             @Override
             public void onResponse(Call<RandomRecipeApiResponse> call, Response<RandomRecipeApiResponse> response) {
@@ -54,9 +63,15 @@ public class RequestManager {
         });
     }
 
+    // Call and get random recipe details based on id
     public void getRecipeDetails(RecipeDetailsListener listener, int id){
+        // Create api call for recipe details
         CallRecipeDetails callRecipeDetails = retrofit.create(CallRecipeDetails.class);
-        Call<RecipeDetailsResponse> call = callRecipeDetails.callRecipeDetails(id, context.getString(R.string.api_key));
+        Call<RecipeDetailsResponse> call = callRecipeDetails.
+                callRecipeDetails(
+                        id,
+                        API_KEY);
+
         call.enqueue(new Callback<RecipeDetailsResponse>() {
             @Override
             public void onResponse(Call<RecipeDetailsResponse> call, Response<RecipeDetailsResponse> response) {
@@ -75,9 +90,12 @@ public class RequestManager {
         });
     }
 
+    // Call and get random similar recipes based on id
     public void getSimilarRecipes(SimilarRecipesListener listener, int id){
+        // Create api call for similar recipes
         CallSimilarRecipes callSimilarRecipes = retrofit.create(CallSimilarRecipes.class);
-        Call<List<SimilarRecipeResponse>> call = callSimilarRecipes.callSimilarRecipe(id, "4", context.getString(R.string.api_key));
+        Call<List<SimilarRecipeResponse>> call = callSimilarRecipes.callSimilarRecipe(id, "4", API_KEY);
+
         call.enqueue(new Callback<List<SimilarRecipeResponse>>() {
             @Override
             public void onResponse(Call<List<SimilarRecipeResponse>> call, Response<List<SimilarRecipeResponse>> response) {
@@ -95,9 +113,12 @@ public class RequestManager {
         });
     }
 
+    // Call and get random recipe's instruction based on id
     public void getInstructions(InstructionsListener listener, int id){
+        // Create api call for recipe's instruction
         CallInstructions callInstructions = retrofit.create(CallInstructions.class);
-        Call<List<InstructionsResponse>> call = callInstructions.callInstructions(id, context.getString(R.string.api_key));
+        Call<List<InstructionsResponse>> call = callInstructions.callInstructions(id, API_KEY);
+
         call.enqueue(new Callback<List<InstructionsResponse>>() {
             @Override
             public void onResponse(Call<List<InstructionsResponse>> call, Response<List<InstructionsResponse>> response) {
@@ -113,45 +134,6 @@ public class RequestManager {
                 listener.didError(t.getMessage());
             }
         });
-    }
-
-    // Function get ramdom recipe from api
-    private interface CallRandomRecipes{
-        @GET("recipes/random")
-        Call<RandomRecipeApiResponse> callRandomRecipe(
-                @Query("apiKey") String apiKey,
-                @Query("tags") List<String> tags,
-                @Query("number") String number
-        );
-    }
-
-    // Function get recipe details by id
-    private interface CallRecipeDetails{
-        @GET("recipes/{id}/information")
-        Call<RecipeDetailsResponse> callRecipeDetails(
-                @Path("id") int id,
-                @Query("apiKey") String apiKey
-
-        );
-    }
-
-    // Function get similar recipe by id
-    private interface CallSimilarRecipes{
-        @GET("recipes/{id}/similar")
-        Call<List<SimilarRecipeResponse>> callSimilarRecipe(
-                @Path("id") int id,
-                @Query("number") String number,
-                @Query("apiKey") String apiKey
-        );
-    }
-
-    // Function get instructions of recipe by id
-    private interface CallInstructions{
-        @GET("recipes/{id}/analyzedInstructions")
-        Call<List<InstructionsResponse>> callInstructions(
-                @Path("id") int id,
-                @Query("apiKey") String apiKey
-        );
     }
 }
 

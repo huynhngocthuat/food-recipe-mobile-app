@@ -22,7 +22,7 @@ import com.example.foodrecipemobileapp.Models.ResponseModels.InstructionsRespons
 import com.example.foodrecipemobileapp.Models.ResponseModels.RecipeDetailsResponse;
 import com.example.foodrecipemobileapp.Models.ResponseModels.SimilarRecipeResponse;
 import com.example.foodrecipemobileapp.R;
-import com.example.foodrecipemobileapp.RequestManager;
+import com.example.foodrecipemobileapp.Datas.Remotes.RequestManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

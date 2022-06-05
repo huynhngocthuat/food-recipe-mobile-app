@@ -19,7 +19,7 @@ import com.example.foodrecipemobileapp.Listeners.RandomRecipeResponseListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeClickListener;
 import com.example.foodrecipemobileapp.Models.ResponseModels.RandomRecipeApiResponse;
 import com.example.foodrecipemobileapp.R;
-import com.example.foodrecipemobileapp.RequestManager;
+import com.example.foodrecipemobileapp.Datas.Remotes.RequestManager;
 
 import java.util.ArrayList;
 import java.util.List;
