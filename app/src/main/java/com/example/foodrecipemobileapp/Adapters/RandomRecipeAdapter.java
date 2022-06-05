@@ -44,6 +44,7 @@ public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHo
         holder.textViewLikes.setText(list.get(position).aggregateLikes+" Likes");
         holder.textViewServings.setText(list.get(position).servings+" Servings");
         holder.textViewTime.setText(list.get(position).readyInMinutes+" Minutes");
+        holder.textViewPrice.setText(list.get(position).pricePerServing+ "$");
         Picasso.get().load(list.get(position).image).into(holder.imageViewFood);
 
         holder.randomListContainer.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +66,9 @@ public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHo
 class RandomRecipeViewHolder extends RecyclerView.ViewHolder{
 
     CardView randomListContainer;
-    TextView textViewTitle, textViewServings, textViewLikes, textViewTime;
+    TextView textViewTitle, textViewServings, textViewLikes, textViewTime, textViewPrice;
     ImageView imageViewFood;
+
 
 
     public RandomRecipeViewHolder(@NonNull View itemView) {
@@ -77,6 +79,7 @@ class RandomRecipeViewHolder extends RecyclerView.ViewHolder{
         textViewLikes = itemView.findViewById(R.id.textView_likes);
         textViewTime = itemView.findViewById(R.id.textView_time);
         imageViewFood = itemView.findViewById(R.id.imageView_food);
+        textViewPrice = itemView.findViewById(R.id.textView_price);
 
     }
 }
