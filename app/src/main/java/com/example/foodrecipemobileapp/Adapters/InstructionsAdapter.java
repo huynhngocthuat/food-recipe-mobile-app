@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.foodrecipemobileapp.Models.InstructionsResponse;
+import com.example.foodrecipemobileapp.Models.ResponseModels.InstructionsResponse;
 import com.example.foodrecipemobileapp.R;
 
 import java.util.List;

@@ -1,4 +1,7 @@
-package com.example.foodrecipemobileapp.Models;
+package com.example.foodrecipemobileapp.Models.ResponseModels;
+
+import com.example.foodrecipemobileapp.Models.ExtendedIngredient;
+import com.example.foodrecipemobileapp.Models.WinePairing;
 
 import java.util.ArrayList;
 
