@@ -3,7 +3,7 @@ package com.example.foodrecipemobileapp.Models;
 import java.util.ArrayList;
 
 public class ExtendedIngredient {
-    public int id;
+    public long id;
     public String aisle;
     public String image;
     public String consistency;
