@@ -1,42 +1,73 @@
 package com.example.foodrecipemobileapp.Models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.ArrayList;
 
+@Entity(tableName = "recipe")
 public class Recipe {
-    public boolean vegetarian;
-    public boolean vegan;
-    public boolean glutenFree;
-    public boolean dairyFree;
-    public boolean veryHealthy;
-    public boolean cheap;
-    public boolean veryPopular;
-    public boolean sustainable;
-    public boolean lowFodmap;
-    public int weightWatcherSmartPoints;
-    public String gaps;
+    @PrimaryKey
+    public long idRecipe;
+    public String title;
+
+    public int readyInMinutes;
     public int preparationMinutes;
     public int cookingMinutes;
-    public int aggregateLikes;
-    public int healthScore;
-    public String creditsText;
-    public String sourceName;
-    public double pricePerServing;
-    public ArrayList<ExtendedIngredient> extendedIngredients;
-    public int id;
-    public String title;
-    public int readyInMinutes;
     public int servings;
-    public String sourceUrl;
-    public int openLicense;
+    public double pricePerServing;
+
+    public int aggregateLikes;
     public String image;
+
+    @Ignore
+    public boolean vegetarian;
+    @Ignore
+    public boolean vegan;
+    @Ignore
+    public boolean glutenFree;
+    @Ignore
+    public boolean dairyFree;
+    @Ignore
+    public boolean veryHealthy;
+    @Ignore
+    public boolean cheap;
+    @Ignore
+    public boolean veryPopular;
+    @Ignore
+    public boolean sustainable;
+    @Ignore
+    public boolean lowFodmap;
+
+    @Ignore
+    public int weightWatcherSmartPoints;
+    @Ignore
+    public String gaps;
+
+    @Ignore
+    public int healthScore;
+    @Ignore
+    public String creditsText;
+    @Ignore
+    public String sourceName;
+
+    @Ignore
+    public String sourceUrl;
+    @Ignore
+    public int openLicense;
+
+    @Ignore
     public String imageType;
+    @Ignore
     public String summary;
-    public ArrayList<Object> cuisines;
+    @Ignore
     public ArrayList<String> dishTypes;
-    public ArrayList<Object> diets;
-    public ArrayList<Object> occasions;
+    @Ignore
+    public ArrayList<String> diets;
+    @Ignore
     public String instructions;
-    public ArrayList<AnalyzedInstruction> analyzedInstructions;
-    public Object originalId;
+    @Ignore
     public String spoonacularSourceUrl;
 }

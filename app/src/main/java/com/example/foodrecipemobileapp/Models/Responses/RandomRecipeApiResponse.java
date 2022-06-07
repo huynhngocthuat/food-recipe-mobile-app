@@ -1,4 +1,4 @@
-package com.example.foodrecipemobileapp.Models.ResponseModels;
+package com.example.foodrecipemobileapp.Models.Responses;
 
 import com.example.foodrecipemobileapp.Models.Recipe;
 
