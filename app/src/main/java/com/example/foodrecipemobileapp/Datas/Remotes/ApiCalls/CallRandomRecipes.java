@@ -1,6 +1,6 @@
 package com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls;
 
-import com.example.foodrecipemobileapp.Models.ResponseModels.RandomRecipeApiResponse;
+import com.example.foodrecipemobileapp.Models.Responses.RandomRecipeApiResponse;
 
 import java.util.List;
 

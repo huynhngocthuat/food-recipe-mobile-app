@@ -1,6 +1,6 @@
 package com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls;
 
-import com.example.foodrecipemobileapp.Models.ResponseModels.RecipeDetailsResponse;
+import com.example.foodrecipemobileapp.Models.Responses.RecipeDetailsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

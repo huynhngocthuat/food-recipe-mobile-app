@@ -11,19 +11,15 @@ import java.util.ArrayList;
 public class Recipe {
     @PrimaryKey
     public long idRecipe;
-    @ColumnInfo()
     public String title;
 
-    @ColumnInfo()
     public int readyInMinutes;
     public int preparationMinutes;
     public int cookingMinutes;
     public int servings;
     public double pricePerServing;
 
-    @ColumnInfo()
     public int aggregateLikes;
-    @ColumnInfo()
     public String image;
 
     @Ignore
@@ -72,8 +68,6 @@ public class Recipe {
     public ArrayList<String> diets;
     @Ignore
     public String instructions;
-    @Ignore
-    public ArrayList<AnalyzedInstruction> analyzedInstructions;
     @Ignore
     public String spoonacularSourceUrl;
 }

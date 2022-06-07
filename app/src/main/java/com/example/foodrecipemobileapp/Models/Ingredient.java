@@ -7,20 +7,17 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity=Recipe.class,
-        parentColumns="idRecipe",
-        childColumns="idFkRecipe",
-        onDelete=CASCADE),//end foreignKeys
+@Entity(foreignKeys = {
+        @ForeignKey(entity = Step.class, parentColumns="idStep", childColumns="idFkStep", onDelete=CASCADE)
+        },//end foreignKeys
         tableName = "ingredient")
 public class Ingredient {
     @PrimaryKey()
     public long idIngredient;
-    // Foreign key
-    public long idFkRecipe;
-    @ColumnInfo()
+    //Foreign key
+    public long idFkStep;
+
     public String name;
-    @ColumnInfo()
     public String localizedName;
-    @ColumnInfo()
     public String image;
 }

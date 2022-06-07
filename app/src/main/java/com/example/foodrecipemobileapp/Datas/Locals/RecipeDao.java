@@ -5,9 +5,10 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+import com.example.foodrecipemobileapp.Models.AnalyzedInstruction;
 import com.example.foodrecipemobileapp.Models.Ingredient;
+import com.example.foodrecipemobileapp.Models.Intermediates.RecipeWithExtendedIngredientsAndInstructions;
 import com.example.foodrecipemobileapp.Models.Recipe;
-import com.example.foodrecipemobileapp.Models.Intermediate.RecipeWithIngredients;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,10 @@ public interface RecipeDao {
     @Insert
     void insertIngredients(ArrayList<Ingredient> ingredients);
 
+    @Insert
+    void insertInstructions(ArrayList<AnalyzedInstruction> instructions);
+
     @Transaction
     @Query("SELECT * FROM recipe")
-    ArrayList<RecipeWithIngredients> getRecipeWithIngredients();
+    ArrayList<RecipeWithExtendedIngredientsAndInstructions> getRecipeWithIngredientsAndInstructions();
 }

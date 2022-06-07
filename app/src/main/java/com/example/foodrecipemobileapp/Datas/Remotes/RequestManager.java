@@ -10,10 +10,10 @@ import com.example.foodrecipemobileapp.Listeners.InstructionsListener;
 import com.example.foodrecipemobileapp.Listeners.RandomRecipeResponseListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeDetailsListener;
 import com.example.foodrecipemobileapp.Listeners.SimilarRecipesListener;
-import com.example.foodrecipemobileapp.Models.ResponseModels.InstructionsResponse;
-import com.example.foodrecipemobileapp.Models.ResponseModels.RandomRecipeApiResponse;
-import com.example.foodrecipemobileapp.Models.ResponseModels.RecipeDetailsResponse;
-import com.example.foodrecipemobileapp.Models.ResponseModels.SimilarRecipeResponse;
+import com.example.foodrecipemobileapp.Models.Responses.InstructionsResponse;
+import com.example.foodrecipemobileapp.Models.Responses.RandomRecipeApiResponse;
+import com.example.foodrecipemobileapp.Models.Responses.RecipeDetailsResponse;
+import com.example.foodrecipemobileapp.Models.Responses.SimilarRecipeResponse;
 import com.example.foodrecipemobileapp.R;
 
 import java.util.List;
