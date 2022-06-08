@@ -3,9 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/white"
-    android:elevation="8dp"
-    android:layout_margin="8dp"
+    app:cardBackgroundColor="#A9FFFFFF"
+    app:cardElevation="0dp"
     >
     <LinearLayout
         android:orientation="vertical"
@@ -16,7 +15,7 @@
             android:id="@+id/textView_instruction_name"
             android:text="Instruction"
             android:textAlignment="center"
-            android:textColor="@color/orange"
+            android:textColor="#1b74e4"
             android:textStyle="bold"
             android:textSize="18sp"
             android:padding="8dp"
@@ -25,6 +24,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_instruction_steps"
             android:layout_margin="4dp"
+            android:padding="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
