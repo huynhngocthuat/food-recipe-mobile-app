@@ -9,20 +9,21 @@ import com.example.foodrecipemobileapp.Models.Ingredient;
 import com.example.foodrecipemobileapp.Models.Recipe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeWithExtendedIngredientsAndInstructions {
     @Embedded
     public Recipe recipe;
     @Relation(
-            entity = Recipe.class,
+            entity = AnalyzedInstruction.class,
             parentColumn = "idRecipe",
             entityColumn = "idFkRecipe"
     )
-    public ArrayList<AnalyzedInstruction> analyzedInstructions;
+    public List<InstructionWithSteps> analyzedInstructions;
     @Relation(
-            entity = Recipe.class,
+            entity = ExtendedIngredient.class,
             parentColumn = "idRecipe",
             entityColumn = "idFkRecipe"
     )
-    public ArrayList<ExtendedIngredient> extendedIngredients;
+    public List<ExtendedIngredientAndMeasures> extendedIngredients;
 }

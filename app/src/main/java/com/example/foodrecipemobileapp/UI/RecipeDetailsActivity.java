@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,49 +22,53 @@ import com.example.foodrecipemobileapp.Listeners.SimilarRecipesListener;
 import com.example.foodrecipemobileapp.Models.Responses.InstructionsResponse;
 import com.example.foodrecipemobileapp.Models.Responses.RecipeDetailsResponse;
 import com.example.foodrecipemobileapp.Models.Responses.SimilarRecipeResponse;
-import com.example.foodrecipemobileapp.R;
 import com.example.foodrecipemobileapp.Datas.Remotes.RequestManager;
+import com.example.foodrecipemobileapp.databinding.ActivityRecipeDetailsBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
 
-    int id;
+    int idRecipe;
     TextView textViewMealName, textViewMealSource, textViewMealSummary;
     ImageView imageViewMealImage;
     RecyclerView recyclerMealingredients, recyclerMealSimilar, recyclerMealInstructions;
+
     RequestManager manager;
     ProgressDialog dialog;
     IngredientsAdapter ingredientsAdapter;
     SimilarRecipeAdapter similarRecipeAdapter;
     InstructionsAdapter instructionsAdapter;
+    ActivityRecipeDetailsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_details);
+        binding = ActivityRecipeDetailsBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         findViews();
 
-        id = Integer.parseInt(getIntent().getStringExtra("id"));
+        idRecipe = Integer.parseInt(getIntent().getStringExtra("id"));
         manager = new RequestManager(this);
-        manager.getRecipeDetails(recipeDetailsListener, id);
-        manager.getSimilarRecipes(similarRecipesListener, id);
-        manager.getInstructions(instructionsListener, id);
+        manager.getRecipeDetails(recipeDetailsListener, idRecipe);
+        manager.getSimilarRecipes(similarRecipesListener, idRecipe);
+        manager.getInstructions(instructionsListener, idRecipe);
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading Details....");
         dialog.show();
     }
 
     private void findViews() {
-        textViewMealName = findViewById(R.id.textView_meal_name);
-        textViewMealSource = findViewById(R.id.textView_meal_source);
-        textViewMealSummary = findViewById(R.id.textView_meal_summary);
-        imageViewMealImage = findViewById(R.id.imageView_meal_image);
-        recyclerMealingredients = findViewById(R.id.recycler_meal_ingredients);
-        recyclerMealSimilar = findViewById(R.id.recycler_meal_similar);
-        recyclerMealInstructions = findViewById(R.id.recycler_meal_instructions);
+        textViewMealName = binding.textViewMealName;
+        textViewMealSource = binding.textViewMealSource;
+        textViewMealSummary = binding.textViewMealSummary;
+        imageViewMealImage = binding.imageViewMealImage;
+        recyclerMealingredients = binding.recyclerMealIngredients;
+        recyclerMealSimilar = binding.recyclerMealSimilar;
+        recyclerMealInstructions = binding.recyclerMealInstructions;
     }
 
     // set data on view

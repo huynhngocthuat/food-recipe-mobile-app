@@ -1,9 +1,9 @@
 package com.example.foodrecipemobileapp.Models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class WinePairing {
-    public ArrayList<String> pairedWines;
+    public List<String> pairedWines;
     public String pairingText;
-    public ArrayList<ProductMatch> productMatches;
+    public List<ProductMatch> productMatches;
 }

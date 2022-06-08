@@ -6,26 +6,37 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.foodrecipemobileapp.Models.AnalyzedInstruction;
+import com.example.foodrecipemobileapp.Models.ExtendedIngredient;
 import com.example.foodrecipemobileapp.Models.Ingredient;
 import com.example.foodrecipemobileapp.Models.Intermediates.RecipeWithExtendedIngredientsAndInstructions;
 import com.example.foodrecipemobileapp.Models.Recipe;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
 
 @Dao
 public interface RecipeDao {
 
     @Transaction
     @Insert()
-    long insertRecipe(Recipe recipe);
+    Completable insertRecipe(Recipe recipe);
+
+    @Transaction
+    @Insert
+    Completable insertRecipes(List<Recipe> recipes);
 
     @Insert
-    void insertIngredients(ArrayList<Ingredient> ingredients);
+    Maybe<List<Long>> insertIngredients(List<ExtendedIngredient> ingredients);
 
     @Insert
-    void insertInstructions(ArrayList<AnalyzedInstruction> instructions);
+    Maybe<List<Long>> insertInstructions(List<AnalyzedInstruction> instructions);
+
+
 
     @Transaction
     @Query("SELECT * FROM recipe")
-    ArrayList<RecipeWithExtendedIngredientsAndInstructions> getRecipeWithIngredientsAndInstructions();
+    Maybe<List<RecipeWithExtendedIngredientsAndInstructions>> getRecipeWithIngredientsAndInstructions();
 }

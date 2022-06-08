@@ -5,11 +5,15 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity(tableName = "recipe")
 public class Recipe {
     @PrimaryKey
+    @SerializedName("id")
     public long idRecipe;
     public String title;
 
@@ -22,52 +26,36 @@ public class Recipe {
     public int aggregateLikes;
     public String image;
 
-    @Ignore
     public boolean vegetarian;
-    @Ignore
     public boolean vegan;
-    @Ignore
     public boolean glutenFree;
-    @Ignore
     public boolean dairyFree;
-    @Ignore
     public boolean veryHealthy;
-    @Ignore
     public boolean cheap;
-    @Ignore
     public boolean veryPopular;
-    @Ignore
     public boolean sustainable;
-    @Ignore
     public boolean lowFodmap;
 
-    @Ignore
     public int weightWatcherSmartPoints;
-    @Ignore
     public String gaps;
 
-    @Ignore
     public int healthScore;
-    @Ignore
     public String creditsText;
-    @Ignore
     public String sourceName;
 
-    @Ignore
     public String sourceUrl;
-    @Ignore
     public int openLicense;
 
-    @Ignore
     public String imageType;
-    @Ignore
     public String summary;
     @Ignore
-    public ArrayList<String> dishTypes;
+    public List<String> dishTypes;
     @Ignore
-    public ArrayList<String> diets;
-    @Ignore
+    public List<String> diets;
     public String instructions;
-    @Ignore
     public String spoonacularSourceUrl;
+    @Ignore
+    public List<ExtendedIngredient> extendedIngredients;
+    @Ignore
+    public List<AnalyzedInstruction> analyzedInstructions;
 }

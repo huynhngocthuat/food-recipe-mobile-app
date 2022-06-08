@@ -44,7 +44,7 @@ public class InstructionStepAdapter extends RecyclerView.Adapter<InstructionStep
 
         holder.recyclerViewInstructionsEquipments.setHasFixedSize(true);
         holder.recyclerViewInstructionsEquipments.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        InstructionsEquipmentsAdapter instructionsEquipmentsAdapter = new InstructionsEquipmentsAdapter(context, list.get(position).equipment);
+        InstructionsEquipmentsAdapter instructionsEquipmentsAdapter = new InstructionsEquipmentsAdapter(context, list.get(position).equipments);
         holder.recyclerViewInstructionsEquipments.setAdapter(instructionsEquipmentsAdapter);
 
     }

@@ -11,13 +11,13 @@ public class USAndMetricMeasures {
     @Embedded
     public Measures measures;
     @Relation(
-            entity=Measures.class,
+            entity = Us.class,
             parentColumn="idMeasures",
             entityColumn="idFkMeasures"
     )
     public Us us;
     @Relation(
-            entity=Measures.class,
+            entity = Metric.class,
             parentColumn="idMeasures",
             entityColumn="idFkMeasures"
     )

@@ -49,7 +49,7 @@ public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHo
         holder.randomListContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onRecipeClicked(String.valueOf(list.get(holder.getAdapterPosition()).id));
+                listener.onRecipeClicked(String.valueOf(list.get(holder.getAdapterPosition()).idRecipe));
             }
         });
 

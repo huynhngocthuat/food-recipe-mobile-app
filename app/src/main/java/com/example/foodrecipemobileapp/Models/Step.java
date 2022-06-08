@@ -4,9 +4,13 @@ import static androidx.room.ForeignKey.CASCADE;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity(foreignKeys = @ForeignKey(
         entity = AnalyzedInstruction.class,
@@ -22,5 +26,11 @@ public class Step {
     public long idFkInstruction;
     public int number;
     public String step;
+    @Ignore
     public Length length;
+    @Ignore
+    public List<Ingredient> ingredients;
+    @Ignore
+    @SerializedName("equipment")
+    public List<Equipment> equipments;
 }

@@ -4,6 +4,7 @@ import com.example.foodrecipemobileapp.Models.ExtendedIngredient;
 import com.example.foodrecipemobileapp.Models.WinePairing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeDetailsResponse {
     public int id;
@@ -20,18 +21,17 @@ public class RecipeDetailsResponse {
     public double healthScore;
     public double spoonacularScore;
     public double pricePerServing;
-    public ArrayList<Object> analyzedInstructions;
+    public List<Object> analyzedInstructions;
     public boolean cheap;
     public String creditsText;
-    public ArrayList<Object> cuisines;
+    public List<Object> cuisines;
     public boolean dairyFree;
-    public ArrayList<Object> diets;
+    public List<Object> diets;
     public String gaps;
     public boolean glutenFree;
     public String instructions;
     public boolean ketogenic;
     public boolean lowFodmap;
-    public ArrayList<Object> occasions;
     public boolean sustainable;
     public boolean vegan;
     public boolean vegetarian;
@@ -39,8 +39,8 @@ public class RecipeDetailsResponse {
     public boolean veryPopular;
     public boolean whole30;
     public int weightWatcherSmartPoints;
-    public ArrayList<String> dishTypes;
-    public ArrayList<ExtendedIngredient> extendedIngredients;
+    public List<String> dishTypes;
+    public List<ExtendedIngredient> extendedIngredients;
     public String summary;
     public WinePairing winePairing;
 }
