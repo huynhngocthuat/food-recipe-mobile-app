@@ -1,4 +1,4 @@
-package com.example.foodrecipemobileapp;
+package com.example.foodrecipemobileapp.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -18,6 +18,8 @@ import com.example.foodrecipemobileapp.Adapters.RandomRecipeAdapter;
 import com.example.foodrecipemobileapp.Listeners.RandomRecipeResponseListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeClickListener;
 import com.example.foodrecipemobileapp.Models.RandomRecipeApiResponse;
+import com.example.foodrecipemobileapp.R;
+import com.example.foodrecipemobileapp.RequestManager;
 
 import java.util.ArrayList;
 import java.util.List;

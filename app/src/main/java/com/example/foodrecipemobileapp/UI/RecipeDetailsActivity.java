@@ -1,4 +1,4 @@
-package com.example.foodrecipemobileapp;
+package com.example.foodrecipemobileapp.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +21,8 @@ import com.example.foodrecipemobileapp.Listeners.SimilarRecipesListener;
 import com.example.foodrecipemobileapp.Models.InstructionsResponse;
 import com.example.foodrecipemobileapp.Models.RecipeDetailsResponse;
 import com.example.foodrecipemobileapp.Models.SimilarRecipeResponse;
+import com.example.foodrecipemobileapp.R;
+import com.example.foodrecipemobileapp.RequestManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

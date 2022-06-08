@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#f0f2f5"
-    tools:context=".RecipeDetailsActivity">
+    tools:context=".UI.RecipeDetailsActivity">
 
     <Toolbar
         android:title="Recipe Details"
