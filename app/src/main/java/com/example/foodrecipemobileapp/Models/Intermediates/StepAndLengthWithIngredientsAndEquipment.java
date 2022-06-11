@@ -11,7 +11,7 @@ import com.example.foodrecipemobileapp.Models.Step;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StepWithIngredientsAndEquipment {
+public class StepAndLengthWithIngredientsAndEquipment {
     @Embedded
     public Step step;
     @Relation(

@@ -6,7 +6,6 @@ import androidx.room.Relation;
 import com.example.foodrecipemobileapp.Models.AnalyzedInstruction;
 import com.example.foodrecipemobileapp.Models.Step;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InstructionWithSteps {
@@ -17,5 +16,5 @@ public class InstructionWithSteps {
             parentColumn = "idInstruction",
             entityColumn = "idFkInstruction"
     )
-    public List<StepWithIngredientsAndEquipment> steps;
+    public List<StepAndLengthWithIngredientsAndEquipment> steps;
 }

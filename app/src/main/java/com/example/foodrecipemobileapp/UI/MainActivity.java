@@ -2,6 +2,7 @@ package com.example.foodrecipemobileapp.UI;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -120,10 +122,11 @@ public class MainActivity extends AppCompatActivity {
 
     //Get data from api
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void didFetch(RandomRecipeApiResponse response, String message) {
             dialog.dismiss();
-            recipeRepository.insertRecipes(response.recipes);
+            saveToLocal(response);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 1);
             recyclerView.setLayoutManager(gridLayoutManager);
             randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.recipes, recipeClickListener);
@@ -162,4 +165,10 @@ public class MainActivity extends AppCompatActivity {
                     RecipeDetailsActivity.class).putExtra("id", id));
         }
     };
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void saveToLocal(RandomRecipeApiResponse response){
+        recipeRepository.populateDatas(response.recipes);
+    }
+
 }

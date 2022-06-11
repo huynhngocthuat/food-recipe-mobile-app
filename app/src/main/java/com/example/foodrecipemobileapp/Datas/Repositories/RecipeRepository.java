@@ -1,20 +1,32 @@
 package com.example.foodrecipemobileapp.Datas.Repositories;
 
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.foodrecipemobileapp.Datas.Locals.RecipeDao;
 import com.example.foodrecipemobileapp.Datas.Locals.RecipeDatabase;
 import com.example.foodrecipemobileapp.Models.AnalyzedInstruction;
+import com.example.foodrecipemobileapp.Models.Equipment;
 import com.example.foodrecipemobileapp.Models.ExtendedIngredient;
 import com.example.foodrecipemobileapp.Models.Ingredient;
+import com.example.foodrecipemobileapp.Models.Intermediates.ExtendedIngredientAndMeasures;
 import com.example.foodrecipemobileapp.Models.Intermediates.RecipeWithExtendedIngredientsAndInstructions;
+import com.example.foodrecipemobileapp.Models.Measures;
+import com.example.foodrecipemobileapp.Models.Metric;
 import com.example.foodrecipemobileapp.Models.Recipe;
+import com.example.foodrecipemobileapp.Models.Step;
+import com.example.foodrecipemobileapp.Models.Us;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.core.Scheduler;
@@ -25,6 +37,8 @@ public class RecipeRepository {
     private RecipeDao recipeDao;
     private RecipeDatabase recipeDatabase;
     private static RecipeRepository instance;
+    private static final int DELAY_TIME_DELETE = 1;
+    private static final int DELAY_TIME_INSERT = 12;
 
     public static RecipeRepository getInstance(Application application){
         if(instance == null){
@@ -38,87 +52,11 @@ public class RecipeRepository {
         recipeDao = recipeDatabase.recipeDao();
     }
 
-    public void insertRecipe(Recipe recipe){
-        long idRecipe = recipe.idRecipe;
-        for(ExtendedIngredient ingredient : recipe.extendedIngredients){
-            ingredient.idFkRecipe = idRecipe;
-        }
-        for(AnalyzedInstruction instruction : recipe.analyzedInstructions){
-            instruction.idFkRecipe = idRecipe;
-        }
-        recipeDao.insertRecipe(recipe)
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void populateDatas(List<Recipe> recipes){
+        Completable.fromAction(() -> recipeDao.deleteAndInsert(recipes))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {}
-
-                    @Override
-                    public void onComplete() {
-                        Log.d("INSERT", "RECIPE INSERT COMPLETE!");
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d("ERR_INSERT", "FAIL TO INSERT RECIPE");
-                    }
-                }
-        );
-
-        recipeDao.insertIngredients(recipe.extendedIngredients)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new MaybeObserver<List<Long>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {}
-
-                    @Override
-                    public void onSuccess(@NonNull List<Long> longs) {
-
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d("ERR_INSERT", "FAIL TO INSERT INGREDIENT");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d("INSERT", "INGREDIENT INSERT COMPLETE!");
-                    }
-                });
-        recipeDao.insertInstructions(recipe.analyzedInstructions)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new MaybeObserver<List<Long>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {}
-
-                    @Override
-                    public void onSuccess(@NonNull List<Long> longs) {}
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d("ERR_INSERT", "FAIL TO INSERT INSTRUCTION");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d("INSERT", "INSTRUCTION INSERT COMPLETE!");
-                    }
-                });
+                .subscribe();
     }
-
-    public void insertRecipes(List<Recipe> recipes){
-        for(Recipe recipe : recipes){
-            insertRecipe(recipe);
-        }
-    }
-
-//    public void loadRecipes(int amount){
-//        recipeDao.getRecipeWithIngredientsAndInstructions()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribeWith()
-//    }
 }
