@@ -17,9 +17,10 @@ import java.util.List;
         tableName = "extended_ingredient"
 )
 public class ExtendedIngredient {
-    @PrimaryKey
-    @SerializedName("id")
+    @PrimaryKey(autoGenerate = true)
     public long idExtendedIngredient;
+    @SerializedName("id")
+    public long _idExtendedIngredient;
     //Foreign key
     public long idFkRecipe;
 

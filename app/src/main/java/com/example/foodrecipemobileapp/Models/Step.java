@@ -12,13 +12,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(foreignKeys = @ForeignKey(
-        entity = AnalyzedInstruction.class,
-        parentColumns = "idInstruction",
-        childColumns = "idFkInstruction",
-        onDelete = CASCADE),//end foreignKeys
-        tableName = "step"
-)
+@Entity(foreignKeys = @ForeignKey(entity = AnalyzedInstruction.class, parentColumns = "idInstruction", childColumns = "idFkInstruction", onDelete = CASCADE),//end foreignKeys
+        tableName = "step")
 public class Step {
     @PrimaryKey(autoGenerate = true)
     public long idStep;

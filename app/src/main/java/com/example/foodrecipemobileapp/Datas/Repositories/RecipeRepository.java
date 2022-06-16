@@ -28,6 +28,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -37,8 +38,6 @@ public class RecipeRepository {
     private RecipeDao recipeDao;
     private RecipeDatabase recipeDatabase;
     private static RecipeRepository instance;
-    private static final int DELAY_TIME_DELETE = 1;
-    private static final int DELAY_TIME_INSERT = 12;
 
     public static RecipeRepository getInstance(Application application){
         if(instance == null){
@@ -58,5 +57,29 @@ public class RecipeRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void insertRecipes(List<Recipe> recipes){
+        Completable.fromAction(() -> recipeDao.insertAll(recipes))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe();
+    }
+
+    public Maybe<List<RecipeWithExtendedIngredientsAndInstructions>> getRandomRecipe(int amount){
+        return recipeDao.getRecipes(amount);
+    }
+
+    public Maybe<RecipeWithExtendedIngredientsAndInstructions> getRecipeById(long id){
+        return recipeDao.getRecipeById(id);
+    }
+
+    public Maybe<List<RecipeWithExtendedIngredientsAndInstructions>> getRecipesByTag(String tag, int amount){
+        return recipeDao.getRecipesByTag(tag, amount);
+    }
+
+    public void deteleAll(){
+        recipeDao.deleteAll();
     }
 }

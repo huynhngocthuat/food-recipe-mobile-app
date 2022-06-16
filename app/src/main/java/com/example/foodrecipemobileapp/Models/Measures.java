@@ -5,11 +5,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = {
-        @ForeignKey(
-                entity=ExtendedIngredient.class,
-                parentColumns="idExtendedIngredient",
-                childColumns="idFkExtendedIngredient")},
+@Entity(foreignKeys = {@ForeignKey(entity=ExtendedIngredient.class, parentColumns="idExtendedIngredient", childColumns="idFkExtendedIngredient")},
         tableName="measures")
 public class Measures {
     @PrimaryKey(autoGenerate = true)

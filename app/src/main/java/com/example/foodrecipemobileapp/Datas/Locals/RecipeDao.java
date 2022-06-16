@@ -32,34 +32,34 @@ import io.reactivex.rxjava3.core.Maybe;
 public abstract class RecipeDao {
 
     @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insertRecipe(Recipe recipe);
     @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insertRecipes(List<Recipe> recipes);
 
     // Insert recipe's properties
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract List<Long> insertExtendedIngredients(List<ExtendedIngredient> ingredients);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract List<Long> insertInstructions(List<AnalyzedInstruction> instructions);
 
     // Insert steps and their properties
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract List<Long> insertSteps(List<Step> steps);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insertIngredients(List<Ingredient> ingredients);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insertEquipments(List<Equipment> equipments);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insertLength(Length length);
 
     // Insert Measures and their properties
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract List<Long> insertMeasures(List<Measures> measures);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insertUsMeasure(List<Us> us);
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insertMetricMeasure(List<Metric> metric);
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -72,7 +72,6 @@ public abstract class RecipeDao {
         insertRecipes(recipes);
         // Set recipe foreign key id for it's instructions and extended ingredients
         recipes.forEach(recipe -> {
-            Log.d("RECIPE_ID", String.format("%d", recipe.idRecipe));
             recipe.extendedIngredients.forEach(extendedIngredient -> extendedIngredient.idFkRecipe = recipe.idRecipe);
             // Insert extended ingredients
             List<Long> extIngredientIds = insertExtendedIngredients(recipe.extendedIngredients);
@@ -103,21 +102,18 @@ public abstract class RecipeDao {
             recipe.analyzedInstructions
                     .forEach(analyzedInstruction -> analyzedInstruction.idFkRecipe = recipe.idRecipe);
             List<Long> instructionIds = insertInstructions(recipe.analyzedInstructions);
-            instructionIds.forEach(ins -> Log.d("IDS", String.format("%d", ins)));
             // Get list of step id from step insertion
             List<List<Long>> instructionStepIds = new ArrayList<>();
             for(int index = 0; index < instructionIds.size(); index++){
                 int finalIndex = index;
-                recipe.analyzedInstructions
-                        .forEach(analyzedInstruction -> {
-                            analyzedInstruction.steps
-                                    .forEach(step -> step.idFkInstruction = instructionIds.get(finalIndex));
-                            instructionStepIds.add(insertSteps(analyzedInstruction.steps));
+                recipe.analyzedInstructions.get(index)
+                        .steps.forEach(step -> {
+                            step.idFkInstruction = instructionIds.get(finalIndex);
                         });
+                instructionStepIds.add(insertSteps(recipe.analyzedInstructions.get(index).steps));
             }
-            Log.d("LENGTH", String.format("%d", instructionStepIds.size()));
             // Set id step (return from insertion) for insert step's ingredients and equipments
-            for(int istrStepIndex = 0; istrStepIndex < instructionStepIds.size(); istrStepIndex++){
+            for(int istrStepIndex = 0; istrStepIndex < instructionIds.size(); istrStepIndex++){
                 for(int stepIndex = 0; stepIndex < instructionStepIds.get(istrStepIndex).size(); stepIndex++){
                     recipe
                             .analyzedInstructions.get(istrStepIndex)
@@ -187,7 +183,14 @@ public abstract class RecipeDao {
     }
 
     @Transaction
-    @Query("SELECT * FROM recipe")
-    public abstract Maybe<List<RecipeWithExtendedIngredientsAndInstructions>> getRecipeWithIngredientsAndInstructions();
+    @Query("SELECT * FROM recipe ORDER BY RANDOM() limit :amount")
+    public abstract Maybe<List<RecipeWithExtendedIngredientsAndInstructions >> getRecipes(int amount);
 
+    @Transaction
+    @Query("SELECT * FROM recipe WHERE dishTypes LIKE '%' || :tag || '%' ORDER BY RANDOM() limit :amount")
+    public abstract Maybe<List<RecipeWithExtendedIngredientsAndInstructions>> getRecipesByTag(String tag, int amount);
+
+    @Transaction
+    @Query("SELECT * FROM recipe WHERE idRecipe = :id")
+    public abstract Maybe<RecipeWithExtendedIngredientsAndInstructions> getRecipeById(long id);
 }

@@ -8,14 +8,14 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(foreignKeys = {
-        @ForeignKey(entity=Step.class, parentColumns="idStep", childColumns="idFkStep", onDelete=CASCADE)
-        },//End foreignKeys
+@Entity(
+        foreignKeys = {@ForeignKey(entity=Step.class, parentColumns="idStep", childColumns="idFkStep", onDelete=CASCADE)},//End foreignKeys
         tableName = "equipment")
 public class Equipment {
-    @PrimaryKey()
-    @SerializedName("id")
+    @PrimaryKey(autoGenerate = true)
     public long idEquipment;
+    @SerializedName("id")
+    public long _idEquipment;
     // Foreign key
     public long idFkStep;
     public String name;

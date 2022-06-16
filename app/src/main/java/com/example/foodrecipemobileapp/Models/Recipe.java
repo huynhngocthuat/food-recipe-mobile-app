@@ -48,7 +48,7 @@ public class Recipe {
 
     public String imageType;
     public String summary;
-    @Ignore
+//    @Ignore
     public List<String> dishTypes;
     @Ignore
     public List<String> diets;

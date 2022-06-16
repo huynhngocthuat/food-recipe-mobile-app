@@ -1,22 +1,17 @@
 package com.example.foodrecipemobileapp.UI;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -26,14 +21,23 @@ import com.example.foodrecipemobileapp.Adapters.RandomRecipeAdapter;
 import com.example.foodrecipemobileapp.Datas.Repositories.RecipeRepository;
 import com.example.foodrecipemobileapp.Listeners.RandomRecipeResponseListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeClickListener;
+import com.example.foodrecipemobileapp.Models.Intermediates.RecipeWithExtendedIngredientsAndInstructions;
 import com.example.foodrecipemobileapp.Models.Recipe;
 import com.example.foodrecipemobileapp.Models.Responses.RandomRecipeApiResponse;
 import com.example.foodrecipemobileapp.R;
 import com.example.foodrecipemobileapp.Datas.Remotes.RequestManager;
+import com.example.foodrecipemobileapp.Utils.EndlessRecyclerOnScrollListener;
 import com.example.foodrecipemobileapp.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.MaybeObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
     public ActivityMainBinding binding;
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     public RandomRecipeAdapter randomRecipeAdapter;
     public List<String> tags = new ArrayList<>();
 
+    public List<Recipe> recipes;
+
     public RecipeRepository recipeRepository;
 
     @Override
@@ -58,18 +64,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
 
         recipeRepository = RecipeRepository.getInstance(getApplication());
+        deteleAllRecipe();
+
+        recipes = new ArrayList<>();
 
         findViews();
-        dialogLoading();
-
-        searchViewInitialize();
-        dropDownInitialize();
-
+        initializeRecyclerViewAdapter();
+        initializeSearchView();
+        initializeDropdown();
+        setRecyclerViewOnScrollListener();
         manager = new RequestManager(this);
-//        manager.getRandomRecipes(randomRecipeResponseListener);
-//        dialog.show();
-
     }
+
+    private void deteleAllRecipe(){
+        Completable.fromAction(() -> recipeRepository.deteleAll())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe();
+    }
+
 
     private void findViews(){
         searchView = binding.searchViewHome;
@@ -78,20 +91,33 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
     }
 
-    private void dialogLoading(){
-        dialog = new ProgressDialog(this);
-        dialog.setTitle("Loading......");
+    private void setRecyclerViewOnScrollListener(){
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+                tags.clear();
+                tags.add(binding.spinnerTags.getSelectedItem().toString());
+                manager.getRandomRecipes(moreRandomRecipeResponseListener, tags, 10);
+            }
+        });
     }
 
-    private void searchViewInitialize(){
+    private void initializeRecyclerViewAdapter(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, recipes, recipeClickListener);
+        recyclerView.setAdapter(randomRecipeAdapter);
+    }
+
+    private void initializeSearchView(){
         // Add search functions
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 tags.clear();
                 tags.add(s);
-                manager.getRandomRecipes(randomRecipeResponseListener, tags);
-                dialog.show();
+                manager.getRandomRecipes(randomRecipeResponseListener, tags, 10);
                 return true;
             }
 
@@ -102,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void dropDownInitialize(){
+    private void initializeDropdown(){
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.tags,
@@ -113,24 +139,42 @@ public class MainActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(spinnerSelectedListener);
     }
 
-//    private void populateData(){
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 1);
-//        recyclerView.setLayoutManager(gridLayoutManager);
-//        randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.recipes, recipeClickListener);
-//        recyclerView.setAdapter(randomRecipeAdapter);
-//    }
+    private void populateData(String tag, int amount){
+        recipeRepository.getRecipesByTag(tag, amount)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribeWith(new MaybeObserver<List<RecipeWithExtendedIngredientsAndInstructions>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onSuccess(@NonNull List<RecipeWithExtendedIngredientsAndInstructions> recipeList) {
+                        recipes.clear();
+                        recipeList.forEach(rec -> recipes.add(rec.recipe));
+                        randomRecipeAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Toast.makeText(MainActivity.this, "ERROR populating recipes", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
 
     //Get data from api
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void didFetch(RandomRecipeApiResponse response, String message) {
-            dialog.dismiss();
             saveToLocal(response);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 1);
-            recyclerView.setLayoutManager(gridLayoutManager);
-            randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.recipes, recipeClickListener);
-            recyclerView.setAdapter(randomRecipeAdapter);
+            populateData("", 10);
         }
 
         @Override
@@ -139,15 +183,32 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    //Get more data on scroll
+    private final RandomRecipeResponseListener moreRandomRecipeResponseListener = new RandomRecipeResponseListener() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void didFetch(RandomRecipeApiResponse response, String message) {
+            recipes.addAll(response.recipes);
+            recipeRepository.insertRecipes(response.recipes);
+            randomRecipeAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void didError(String message) {
+
+        }
+    };
+
     // Event select item in spinner(tags in api)
     private final AdapterView.OnItemSelectedListener spinnerSelectedListener = new AdapterView.OnItemSelectedListener() {
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             tags.clear();
             tags.add(adapterView.getSelectedItem().toString());
-            manager.getRandomRecipes(randomRecipeResponseListener, tags);
-            dialog.show();
+            manager.getRandomRecipes(randomRecipeResponseListener, tags, 10);
+            setRecyclerViewOnScrollListener();
         }
 
         @Override
@@ -162,13 +223,14 @@ public class MainActivity extends AppCompatActivity {
         public void onRecipeClicked(String id) {
             startActivity(new Intent(
                     MainActivity.this,
-                    RecipeDetailsActivity.class).putExtra("id", id));
+                    RecipeDetailsActivity.class).putExtra("id", Long.parseLong(id)));
         }
     };
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void saveToLocal(RandomRecipeApiResponse response){
-        recipeRepository.populateDatas(response.recipes);
+        recipeRepository.insertRecipes(response.recipes);
+//        recipeRepository.populateDatas(response.recipes);
     }
 
 }

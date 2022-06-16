@@ -8,14 +8,7 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(
-        foreignKeys = {
-                @ForeignKey(
-                        entity = Step.class,
-                        parentColumns = "idStep",
-                        childColumns = "idFkStep",
-                        onDelete = CASCADE
-                )
-        },
+        foreignKeys = {@ForeignKey(entity = Step.class, parentColumns = "idStep", childColumns = "idFkStep", onDelete = CASCADE)},
         tableName="length"
 )
 public class Length {
