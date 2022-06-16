@@ -9,24 +9,25 @@ import com.example.foodrecipemobileapp.Models.Length;
 import com.example.foodrecipemobileapp.Models.Step;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class StepWithIngredientsAndEquipment {
+public class StepAndLengthWithIngredientsAndEquipment {
     @Embedded
     public Step step;
     @Relation(
-            entity = Step.class,
+            entity = Ingredient.class,
             parentColumn = "idStep",
             entityColumn = "idFkStep"
     )
-    public ArrayList<Ingredient> ingredients;
+    public List<Ingredient> ingredients;
     @Relation(
-            entity = Step.class,
+            entity = Equipment.class,
             parentColumn = "idStep",
             entityColumn = "idFkStep"
     )
-    public ArrayList<Equipment> equipments;
+    public List<Equipment> equipments;
     @Relation(
-            entity = Step.class,
+            entity = Length.class,
             parentColumn = "idStep",
             entityColumn = "idFkStep"
     )

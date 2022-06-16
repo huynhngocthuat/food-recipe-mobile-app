@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodrecipemobileapp.Models.AnalyzedInstruction;
+import com.example.foodrecipemobileapp.Models.Intermediates.InstructionWithSteps;
 import com.example.foodrecipemobileapp.Models.Responses.InstructionsResponse;
 import com.example.foodrecipemobileapp.R;
 
@@ -18,9 +20,9 @@ import java.util.List;
 public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsViewHolder>{
 
     Context context;
-    List<InstructionsResponse> list;
+    List<InstructionWithSteps> list;
 
-    public InstructionsAdapter(Context context, List<InstructionsResponse> list) {
+    public InstructionsAdapter(Context context, List<InstructionWithSteps> list) {
         this.context = context;
         this.list = list;
     }
@@ -33,7 +35,7 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsViewHo
 
     @Override
     public void onBindViewHolder(@NonNull InstructionsViewHolder holder, int position) {
-        holder.textViewInstructionName.setText(list.get(position).name);
+        holder.textViewInstructionName.setText(list.get(position).instruction.name);
         holder.recyclerViewInstructionSteps.setHasFixedSize(true);
         holder.recyclerViewInstructionSteps.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 

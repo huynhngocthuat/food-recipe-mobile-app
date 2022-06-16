@@ -10,9 +10,9 @@ public class ExtendedIngredientAndMeasures {
     @Embedded
     public ExtendedIngredient extendedIngredient;
     @Relation(
-            entity=ExtendedIngredient.class,
+            entity = Measures.class,
             parentColumn="idExtendedIngredient",
             entityColumn="idFkExtendedIngredient"
     )
-    public Measures measures;
+    public USAndMetricMeasures measures;
 }

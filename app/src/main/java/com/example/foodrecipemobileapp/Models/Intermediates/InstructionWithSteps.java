@@ -6,15 +6,15 @@ import androidx.room.Relation;
 import com.example.foodrecipemobileapp.Models.AnalyzedInstruction;
 import com.example.foodrecipemobileapp.Models.Step;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class InstructionWithSteps {
     @Embedded
     public AnalyzedInstruction instruction;
     @Relation(
-            entity = AnalyzedInstruction.class,
+            entity = Step.class,
             parentColumn = "idInstruction",
             entityColumn = "idFkInstruction"
     )
-    public ArrayList<StepWithIngredientsAndEquipment> steps;
+    public List<StepAndLengthWithIngredientsAndEquipment> steps;
 }

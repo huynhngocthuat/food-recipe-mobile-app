@@ -7,13 +7,17 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = {
-        @ForeignKey(entity = Step.class, parentColumns="idStep", childColumns="idFkStep", onDelete=CASCADE)
-        },//end foreignKeys
+import com.google.gson.annotations.SerializedName;
+
+@Entity(
+        foreignKeys = {@ForeignKey(entity = Step.class, parentColumns="idStep", childColumns="idFkStep", onDelete=CASCADE)},//end foreignKeys
         tableName = "ingredient")
 public class Ingredient {
-    @PrimaryKey()
+    @PrimaryKey(autoGenerate = true)
     public long idIngredient;
+
+    @SerializedName("id")
+    public long _idIngredient;
     //Foreign key
     public long idFkStep;
 
