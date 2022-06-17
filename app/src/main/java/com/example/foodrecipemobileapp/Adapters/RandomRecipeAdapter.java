@@ -49,11 +49,11 @@ public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHo
         holder.textViewTitle.setText(recipeList.get(position).title);
         holder.textViewTitle.setSelected(true);
 
-        holder.textViewLikes.setText(list.get(position).aggregateLikes+" Likes");
-        holder.textViewServings.setText(list.get(position).servings+" Servings");
-        holder.textViewTime.setText(list.get(position).readyInMinutes+" Minutes");
-        holder.textViewPrice.setText(list.get(position).pricePerServing+ "$");
-        Picasso.get().load(list.get(position).image).into(holder.imageViewFood);
+        holder.textViewLikes.setText(recipeList.get(position).aggregateLikes+" Likes");
+        holder.textViewServings.setText(recipeList.get(position).servings+" Servings");
+        holder.textViewTime.setText(recipeList.get(position).readyInMinutes+" Minutes");
+        holder.textViewPrice.setText(recipeList.get(position).pricePerServing+ "$");
+        Picasso.get().load(recipeList.get(position).image).into(holder.imageViewFood);
 
         holder.randomListContainer.setOnClickListener(new View.OnClickListener() {
             @Override
