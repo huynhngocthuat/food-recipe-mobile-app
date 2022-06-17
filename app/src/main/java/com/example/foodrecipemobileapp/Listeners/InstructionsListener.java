@@ -1,6 +1,6 @@
 package com.example.foodrecipemobileapp.Listeners;
 
-import com.example.foodrecipemobileapp.Models.InstructionsResponse;
+import com.example.foodrecipemobileapp.Models.Responses.InstructionsResponse;
 
 import java.util.List;
 
