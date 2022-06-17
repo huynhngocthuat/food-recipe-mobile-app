@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/orange"
+
+    android:background="#f0f2f5"
     tools:context=".UI.MainActivity">
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -20,9 +21,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="8dp"
+                android:fontFamily="@font/mainfont"
                 android:gravity="center"
                 android:text="Food Recipe"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -37,20 +39,33 @@
     </androidx.appcompat.widget.Toolbar>
     <androidx.cardview.widget.CardView
         android:elevation="8dp"
-        app:cardBackgroundColor="@color/orange"
+        app:cardBackgroundColor="#CBF3F3F3"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        app:cardCornerRadius="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="8dp">
         <androidx.appcompat.widget.SearchView
+            android:background="@color/white"
             android:id="@+id/searchView_home"
             app:queryHint="Search your recipe..."
             app:iconifiedByDefault="false"
+            app:queryBackground="@color/white"
             app:searchIcon="@drawable/ic_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </androidx.cardview.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#9E9494" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_random"
-        android:layout_margin="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="0dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </androidx.recyclerview.widget.RecyclerView>

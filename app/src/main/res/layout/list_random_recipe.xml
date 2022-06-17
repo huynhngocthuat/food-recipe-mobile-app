@@ -5,8 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/white"
     android:id="@+id/random_list_container"
-    app:cardElevation="8dp"
-    android:layout_margin="8dp">
+    app:cardElevation="12dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="24dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,39 +20,46 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:textStyle="bold"
-            android:textColor="@color/orange"
+            android:textColor="#B9000000"
             android:textSize="22sp"
-            android:padding="8dp"
+            android:padding="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sourcesansprosemibold"/>
         <ImageView
             android:id="@+id/imageView_food"
             android:scaleType="centerCrop"
-            android:layout_margin="8dp"
+            android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="200dp"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
             <LinearLayout
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:layout_marginBottom="12dp">
+
                 <ImageView
-                    android:src="@drawable/ic_servings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/icons8group50" />
+
                 <TextView
                     android:id="@+id/textView_servings"
                     android:textSize="14sp"
-                    android:padding="8dp"
+                    android:padding="4dp"
                     android:text="2 Persons"
                     android:textColor="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sourcesanspro"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="vertical"
@@ -60,17 +68,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
                 <ImageView
-                    android:src="@drawable/ic_like"
+                    android:src="@drawable/ic_baseline_favorite_24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/textView_likes"
                     android:textSize="14sp"
-                    android:padding="8dp"
+                    android:padding="4dp"
                     android:text="2 Persons"
                     android:textColor="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sourcesanspro"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="vertical"
@@ -85,11 +94,33 @@
                 <TextView
                     android:id="@+id/textView_time"
                     android:textSize="14sp"
-                    android:padding="8dp"
+                    android:padding="4dp"
                     android:text="2 Persons"
                     android:textColor="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sourcesanspro"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icons8price80" />
+                <TextView
+                    android:id="@+id/textView_price"
+                    android:textSize="14sp"
+                    android:padding="4dp"
+                    android:text="2 Persons"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sourcesanspro"/>
             </LinearLayout>
 
         </LinearLayout>

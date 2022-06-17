@@ -1,16 +1,20 @@
 package com.example.foodrecipemobileapp.UI;
 
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.foodrecipemobileapp.Adapters.RandomRecipeAdapter;
+
 import com.example.foodrecipemobileapp.Datas.Repositories.RecipeRepository;
 import com.example.foodrecipemobileapp.Listeners.RandomRecipeResponseListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeClickListener;
@@ -28,6 +33,7 @@ import com.example.foodrecipemobileapp.R;
 import com.example.foodrecipemobileapp.Datas.Remotes.RequestManager;
 import com.example.foodrecipemobileapp.Utils.EndlessRecyclerOnScrollListener;
 import com.example.foodrecipemobileapp.databinding.ActivityMainBinding;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -232,5 +239,4 @@ public class MainActivity extends AppCompatActivity {
         recipeRepository.insertRecipes(response.recipes);
 //        recipeRepository.populateDatas(response.recipes);
     }
-
 }

@@ -4,13 +4,18 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/white"
-    app:cardElevation="8dp"
-    android:layout_margin="4dp"
+    app:cardElevation="4dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    app:cardCornerRadius="20dp"
     >
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="8dp">
         
         <LinearLayout
             android:orientation="horizontal"
@@ -24,19 +29,20 @@
                 android:textSize="18sp"
                 android:textAlignment="center"
                 android:padding="8dp"
-                android:textColor="@color/orange"
+                android:textColor="#1b74e4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sourcesanspro"/>
             <TextView
                 android:id="@+id/textView_instructions_step_title"
                 android:text="Step Name"
-                android:textStyle="bold"
                 android:textSize="18sp"
                 android:textAlignment="textStart"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sourcesanspro"/>
         </LinearLayout>
 
         <LinearLayout
@@ -45,13 +51,15 @@
             android:layout_height="wrap_content">
             <TextView
                 android:text="Equipments"
-                android:textColor="@color/orange"
-                android:textAlignment="textStart"
-                android:textSize="18sp"
+                android:textColor="#1b74e4"
+                android:textAlignment="center"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:padding="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sourcesanspro"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_instructions_equipments"
                 android:layout_margin="4dp"
@@ -64,13 +72,15 @@
             android:layout_height="wrap_content">
             <TextView
                 android:text="Ingredients"
-                android:textColor="@color/orange"
-                android:textAlignment="textStart"
-                android:textSize="18sp"
+                android:textColor="#1b74e4"
+                android:textAlignment="center"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:padding="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sourcesanspro"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_instructions_ingredients"
                 android:layout_margin="4dp"

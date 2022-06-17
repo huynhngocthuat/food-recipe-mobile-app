@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.example.foodrecipemobileapp.Models.Intermediates.RecipeWithExtendedIn
 import com.example.foodrecipemobileapp.Models.Responses.SimilarRecipeResponse;
 import com.example.foodrecipemobileapp.Datas.Remotes.RequestManager;
 import com.example.foodrecipemobileapp.databinding.ActivityRecipeDetailsBinding;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
