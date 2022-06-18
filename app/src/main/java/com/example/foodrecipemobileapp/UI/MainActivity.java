@@ -32,6 +32,7 @@ import com.example.foodrecipemobileapp.Models.Responses.RandomRecipeApiResponse;
 import com.example.foodrecipemobileapp.R;
 import com.example.foodrecipemobileapp.Datas.Remotes.RequestManager;
 import com.example.foodrecipemobileapp.Utils.EndlessRecyclerOnScrollListener;
+import com.example.foodrecipemobileapp.Utils.InternetUtils;
 import com.example.foodrecipemobileapp.databinding.ActivityMainBinding;
 
 
@@ -71,8 +72,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
 
         recipeRepository = RecipeRepository.getInstance(getApplication());
-        deteleAllRecipe();
-
+        if(InternetUtils.isInternetConnected(getApplicationContext())){
+            deteleAllRecipe();
+        }
+        else{
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+            populateData("", 10);
+        }
         recipes = new ArrayList<>();
 
         findViews();
@@ -83,13 +89,18 @@ public class MainActivity extends AppCompatActivity {
         manager = new RequestManager(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        deteleAllRecipe();
+    }
+
     private void deteleAllRecipe(){
         Completable.fromAction(() -> recipeRepository.deteleAll())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe();
     }
-
 
     private void findViews(){
         searchView = binding.searchViewHome;
@@ -158,7 +169,9 @@ public class MainActivity extends AppCompatActivity {
 
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
-                    public void onSuccess(@NonNull List<RecipeWithExtendedIngredientsAndInstructions> recipeList) {
+                    public void onSuccess(@NonNull List<RecipeWithExtendedIngredientsAndInstructions> recipeList)
+                    {
+                        Log.d("SUCCESS", "Success loading recipes");
                         recipes.clear();
                         recipeList.forEach(rec -> recipes.add(rec.recipe));
                         randomRecipeAdapter.notifyDataSetChanged();
@@ -166,11 +179,13 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Toast.makeText(MainActivity.this, "ERROR populating recipes", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "ERROR populating recipes", Toast.LENGTH_LONG).show();
+                        Log.d("ERROR", "Error loading recipes");
                     }
 
                     @Override
                     public void onComplete() {
+                        Log.d("COMPLETE", "Complete loading recipes");
                     }
                 });
     }
@@ -186,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void didError(String message) {
-            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
         }
     };
 

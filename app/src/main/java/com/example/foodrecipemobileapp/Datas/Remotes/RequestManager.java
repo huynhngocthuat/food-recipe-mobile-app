@@ -4,12 +4,15 @@ import android.content.Context;
 
 import com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls.CallInstructions;
 import com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls.CallRandomRecipes;
+import com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls.CallRecipeById;
 import com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls.CallRecipeDetails;
 import com.example.foodrecipemobileapp.Datas.Remotes.ApiCalls.CallSimilarRecipes;
 import com.example.foodrecipemobileapp.Listeners.InstructionsListener;
 import com.example.foodrecipemobileapp.Listeners.RandomRecipeResponseListener;
+import com.example.foodrecipemobileapp.Listeners.RecipeByIdResponseListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeDetailsListener;
 import com.example.foodrecipemobileapp.Listeners.SimilarRecipesListener;
+import com.example.foodrecipemobileapp.Models.Recipe;
 import com.example.foodrecipemobileapp.Models.Responses.InstructionsResponse;
 import com.example.foodrecipemobileapp.Models.Responses.RandomRecipeApiResponse;
 import com.example.foodrecipemobileapp.Models.Responses.RecipeDetailsResponse;
@@ -112,6 +115,29 @@ public class RequestManager {
             }
         });
     }
+
+    public void getRecipeById(RecipeByIdResponseListener listener, int id){
+        // Create api call for similar recipes
+        CallRecipeById callRecipeById = retrofit.create(CallRecipeById.class);
+        Call<Recipe> call = callRecipeById.callRecipeById(id, API_KEY);
+
+        call.enqueue(new Callback<Recipe>() {
+            @Override
+            public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+                if(!response.isSuccessful()){
+                    listener.didError(response.message());
+                    return;
+                }
+                listener.didFetch(response.body(), response.message());
+            }
+
+            @Override
+            public void onFailure(Call<Recipe> call, Throwable t) {
+                listener.didError(t.getMessage());
+            }
+        });
+    }
+
 
     // Call and get random recipe's instruction based on id
     public void getInstructions(InstructionsListener listener, int id){
