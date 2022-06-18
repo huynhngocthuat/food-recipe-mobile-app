@@ -1,5 +1,6 @@
 package com.example.foodrecipemobileapp.UI;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,15 +20,18 @@ import com.example.foodrecipemobileapp.Adapters.ExtendedIngredientsAdapter;
 import com.example.foodrecipemobileapp.Adapters.InstructionsAdapter;
 import com.example.foodrecipemobileapp.Adapters.SimilarRecipeAdapter;
 import com.example.foodrecipemobileapp.Datas.Repositories.RecipeRepository;
+import com.example.foodrecipemobileapp.Listeners.RecipeByIdResponseListener;
 import com.example.foodrecipemobileapp.Listeners.RecipeClickListener;
 import com.example.foodrecipemobileapp.Listeners.SimilarRecipesListener;
 import com.example.foodrecipemobileapp.Models.Intermediates.RecipeWithExtendedIngredientsAndInstructions;
+import com.example.foodrecipemobileapp.Models.Recipe;
 import com.example.foodrecipemobileapp.Models.Responses.SimilarRecipeResponse;
 import com.example.foodrecipemobileapp.Datas.Remotes.RequestManager;
 import com.example.foodrecipemobileapp.databinding.ActivityRecipeDetailsBinding;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -63,7 +67,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         recipeRepository = RecipeRepository.getInstance(getApplication());
 
         idRecipe = getIntent().getLongExtra("id",0);
-        Log.d("RECIPE_ID", String.format("%d", idRecipe));
         manager = new RequestManager(this);
         recipeRepository.getRecipeById(idRecipe)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -71,7 +74,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 .subscribeWith(new MaybeObserver<RecipeWithExtendedIngredientsAndInstructions>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        Log.d("SUB", "Fail to load recipe");
                     }
                     @Override
                     public void onSuccess(@NonNull RecipeWithExtendedIngredientsAndInstructions recipeFull) {
@@ -101,7 +103,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        Log.d("COMP", "Fail to load recipe");
                     }
                 });
         manager.getSimilarRecipes(similarRecipesListener, (int) idRecipe);
@@ -119,17 +120,35 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
     // Display similar recipes
     private final SimilarRecipesListener  similarRecipesListener = new SimilarRecipesListener() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void didFetch(List<SimilarRecipeResponse> responses, String message) {
             recyclerMealSimilar.setHasFixedSize(true);
             recyclerMealSimilar.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
             similarRecipeAdapter = new SimilarRecipeAdapter(RecipeDetailsActivity.this, responses, recipeClickListener);
             recyclerMealSimilar.setAdapter(similarRecipeAdapter);
+            responses.forEach(recipe -> {
+                manager.getRecipeById(recipeByIdResponseListener, (int)recipe.id);
+            });
         }
 
         @Override
         public void didError(String message) {
-            Toast.makeText(RecipeDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private final RecipeByIdResponseListener recipeByIdResponseListener = new RecipeByIdResponseListener() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void didFetch(Recipe response, String message) {
+            List<Recipe> recipes = new ArrayList<>();
+            recipes.add(response);
+            recipeRepository.insertRecipes(recipes);
+        }
+
+        @Override
+        public void didError(String message) {
+
         }
     };
 
@@ -137,12 +156,10 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
         @Override
         public void onRecipeClicked(String id) {
-            int idRecipe = (int)Float.parseFloat(id);
-//            Toast.makeText(RecipeDetailsActivity.this, id, Toast.LENGTH_SHORT).show();
-            System.out.println(idRecipe);
-            startActivity(new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class)
-            .putExtra("id", Integer.toString(idRecipe)));
+            int idRecipe = (int) Float.parseFloat(id);
 
+            startActivity(new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class)
+            .putExtra("id", Long.parseLong(String.valueOf(idRecipe))));
         }
     };
 }
