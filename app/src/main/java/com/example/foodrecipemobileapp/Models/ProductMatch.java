@@ -1,7 +1,7 @@
 package com.example.foodrecipemobileapp.Models;
 
 public class ProductMatch {
-    public int id;
+    public long id;
     public String title;
     public String description;
     public String price;

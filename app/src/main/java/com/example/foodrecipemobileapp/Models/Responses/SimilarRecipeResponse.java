@@ -1,4 +1,4 @@
-package com.example.foodrecipemobileapp.Models;
+package com.example.foodrecipemobileapp.Models.Responses;
 
 public class SimilarRecipeResponse {
     public float id;

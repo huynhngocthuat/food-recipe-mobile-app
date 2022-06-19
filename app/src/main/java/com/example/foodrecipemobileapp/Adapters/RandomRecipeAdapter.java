@@ -21,14 +21,21 @@ import java.util.List;
 
 public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHolder>{
     Context context;
-    List<Recipe> list;
-    RecipeClickListener listener;
+    List<Recipe> recipeList;
+    RecipeClickListener clickListener;
 
-    public RandomRecipeAdapter(Context context, List<Recipe> list, RecipeClickListener listener) {
+    public RandomRecipeAdapter(Context context,
+                               List<Recipe> recipeList,
+                               RecipeClickListener clickListener) {
         this.context = context;
-        this.list = list;
-        this.listener = listener;
+        this.recipeList = recipeList;
+        this.clickListener = clickListener;
     }
+
+    public void setRecipes(List<Recipe> recipes){
+        this.recipeList = recipes;
+    }
+
 
     @NonNull
     @Override
@@ -39,18 +46,19 @@ public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RandomRecipeViewHolder holder, int position) {
-        holder.textViewTitle.setText(list.get(position).title);
+        holder.textViewTitle.setText(recipeList.get(position).title);
         holder.textViewTitle.setSelected(true);
-        holder.textViewLikes.setText(list.get(position).aggregateLikes+" Likes");
-        holder.textViewServings.setText(list.get(position).servings+" Servings");
-        holder.textViewTime.setText(list.get(position).readyInMinutes+" Minutes");
-        holder.textViewPrice.setText(list.get(position).pricePerServing+ "$");
-        Picasso.get().load(list.get(position).image).into(holder.imageViewFood);
+
+        holder.textViewLikes.setText(recipeList.get(position).aggregateLikes+" Likes");
+        holder.textViewServings.setText(recipeList.get(position).servings+" Servings");
+        holder.textViewTime.setText(recipeList.get(position).readyInMinutes+" Minutes");
+        holder.textViewPrice.setText(recipeList.get(position).pricePerServing+ "$");
+        Picasso.get().load(recipeList.get(position).image).into(holder.imageViewFood);
 
         holder.randomListContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onRecipeClicked(String.valueOf(list.get(holder.getAdapterPosition()).id));
+                clickListener.onRecipeClicked(String.valueOf(recipeList.get(holder.getAdapterPosition()).idRecipe));
             }
         });
 
@@ -58,7 +66,7 @@ public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHo
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return recipeList.size();
     }
 }
 

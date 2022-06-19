@@ -1,8 +1,31 @@
 package com.example.foodrecipemobileapp.Models;
 
-import java.util.ArrayList;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity(tableName = "recipe")
 public class Recipe {
+    @PrimaryKey
+    @SerializedName("id")
+    public long idRecipe;
+    public String title;
+
+    public int readyInMinutes;
+    public int preparationMinutes;
+    public int cookingMinutes;
+    public int servings;
+    public double pricePerServing;
+
+    public int aggregateLikes;
+    public String image;
+
     public boolean vegetarian;
     public boolean vegan;
     public boolean glutenFree;
@@ -12,31 +35,27 @@ public class Recipe {
     public boolean veryPopular;
     public boolean sustainable;
     public boolean lowFodmap;
+
     public int weightWatcherSmartPoints;
     public String gaps;
-    public int preparationMinutes;
-    public int cookingMinutes;
-    public int aggregateLikes;
+
     public int healthScore;
     public String creditsText;
     public String sourceName;
-    public double pricePerServing;
-    public ArrayList<ExtendedIngredient> extendedIngredients;
-    public int id;
-    public String title;
-    public int readyInMinutes;
-    public int servings;
+
     public String sourceUrl;
     public int openLicense;
-    public String image;
+
     public String imageType;
     public String summary;
-    public ArrayList<Object> cuisines;
-    public ArrayList<String> dishTypes;
-    public ArrayList<Object> diets;
-    public ArrayList<Object> occasions;
+//    @Ignore
+    public List<String> dishTypes;
+    @Ignore
+    public List<String> diets;
     public String instructions;
-    public ArrayList<AnalyzedInstruction> analyzedInstructions;
-    public Object originalId;
     public String spoonacularSourceUrl;
+    @Ignore
+    public List<ExtendedIngredient> extendedIngredients;
+    @Ignore
+    public List<AnalyzedInstruction> analyzedInstructions;
 }

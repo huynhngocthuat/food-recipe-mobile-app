@@ -1,6 +1,6 @@
 package com.example.foodrecipemobileapp.Listeners;
 
-import com.example.foodrecipemobileapp.Models.RecipeDetailsResponse;
+import com.example.foodrecipemobileapp.Models.Responses.RecipeDetailsResponse;
 
 public interface RecipeDetailsListener {
     void didFetch(RecipeDetailsResponse response, String message);
