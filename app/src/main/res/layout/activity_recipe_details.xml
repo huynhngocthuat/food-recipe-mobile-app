@@ -50,14 +50,15 @@
                 android:padding="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
             <ImageView
                 android:id="@+id/imageView_meal_image"
                 android:layout_margin="0dp"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border_img"/>
 
             <TextView
                 android:id="@+id/textView_meal_summary"
