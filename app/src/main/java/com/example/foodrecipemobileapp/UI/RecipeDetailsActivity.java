@@ -2,6 +2,7 @@ package com.example.foodrecipemobileapp.UI;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.IntentCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,6 +46,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     long idRecipe;
     TextView textViewMealName, textViewMealSource, textViewMealSummary;
     ImageView imageViewMealImage;
+    ImageView homeButton;
     RecyclerView recyclerMealingredients, recyclerMealSimilar, recyclerMealInstructions;
 
     RequestManager manager;
@@ -64,6 +66,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         setContentView(view);
 
         findViews();
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecipeDetailsActivity.this.finish();
+            }
+        });
+
         recipeRepository = RecipeRepository.getInstance(getApplication());
 
         idRecipe = getIntent().getLongExtra("id",0);
@@ -116,6 +125,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         recyclerMealingredients = binding.recyclerMealIngredients;
         recyclerMealSimilar = binding.recyclerMealSimilar;
         recyclerMealInstructions = binding.recyclerMealInstructions;
+        homeButton = binding.homeBtn;
     }
 
     // Display similar recipes
@@ -158,8 +168,10 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         public void onRecipeClicked(String id) {
             int idRecipe = (int) Float.parseFloat(id);
 
-            startActivity(new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class)
-            .putExtra("id", Long.parseLong(String.valueOf(idRecipe))));
+            Intent intent = new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("id", Long.parseLong(String.valueOf(idRecipe)));
+            startActivity(intent);
         }
     };
 }
