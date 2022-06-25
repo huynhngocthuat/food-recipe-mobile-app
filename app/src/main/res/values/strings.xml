@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Food Recipe Mobile App</string>
-    <string name="api_key">8706fc85228f4337af32b4c6dc7f7e71</string>
+    <string name="api_key">d1ddbaa259204fafbba8b83593544cbb</string>
     <string-array name="tags">
         <item>main course</item>
         <item>side dish</item>

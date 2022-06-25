@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     public SearchView searchView;
 
     public Spinner spinner;
-    public ProgressDialog dialog;
     public RequestManager manager;
 
     public RandomRecipeAdapter randomRecipeAdapter;
@@ -80,13 +79,13 @@ public class MainActivity extends AppCompatActivity {
             populateData("", 10);
         }
         recipes = new ArrayList<>();
+        manager = new RequestManager(this);
 
         findViews();
         initializeRecyclerViewAdapter();
         initializeSearchView();
         initializeDropdown();
         setRecyclerViewOnScrollListener();
-        manager = new RequestManager(this);
     }
 
     @Override
@@ -242,9 +241,10 @@ public class MainActivity extends AppCompatActivity {
     private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
         @Override
         public void onRecipeClicked(String id) {
-            startActivity(new Intent(
-                    MainActivity.this,
-                    RecipeDetailsActivity.class).putExtra("id", Long.parseLong(id)));
+            Intent intent = new Intent(MainActivity.this, RecipeDetailsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("id", Long.parseLong(id));
+            startActivity(intent);
         }
     };
 
