@@ -92,7 +92,6 @@
                 android:textSize="18sp"
                 android:text="Summary"
                 android:textColor="@color/black"
-                android:maxLines="5"
                 android:textStyle="normal"
                 android:padding="8dp"
                 android:layout_margin="8dp"
